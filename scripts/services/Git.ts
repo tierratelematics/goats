@@ -39,4 +39,14 @@ export class Git {
             });
         });
     }
+
+    checkout(folder: string, branch: string): Promise<any> {
+        return new Promise((resolve, reject) => {
+            spawn("git", ["checkout", "--quiet", branch], folder, err => {
+                if (err) reject(err);
+                else
+                    resolve();
+            });
+        });
+    }
 }

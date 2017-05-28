@@ -17,6 +17,16 @@ program
     .action(() => Tasks.refreshRepos());
 
 program
+    .command("checkout <branch>")
+    .description("Checks out the repositories to a specific branch")
+    .action(branch => { return Tasks.checkoutRepos(branch); });
+
+program
+    .command("run <cmd> [params...]")
+    .description("Runs a command on all the repositories")
+    .action((name, params) => { return Tasks.runCommand(name, params); });
+
+program
     .command("*")
     .action(() => program.help());
 

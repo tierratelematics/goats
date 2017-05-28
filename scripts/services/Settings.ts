@@ -8,7 +8,6 @@ export class Settings {
 
     static set repository(value: string) {
         fs.writeFileSync(this.folder + "/.goats-config", value, { encoding: "utf-8" });
-
     }
 
     static get config() {
