@@ -1,6 +1,6 @@
 {
   "name": "goats",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "dependencies": {
     "@types/mocha": "^2.2.41",
     "@types/node": "^7.0.22",
