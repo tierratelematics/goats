@@ -10,7 +10,7 @@ export class Tasks {
 
         let git = new Git(baseRepo);
 
-        for (let item of Settings.config.file.projects) {
+        for (let item of Settings.config.projects) {
             let path = Settings.folder + "/" + item.projectFolder;
             if (fs.existsSync(path))
                 continue;
@@ -32,7 +32,7 @@ export class Tasks {
 
         let git = new Git(Settings.repository);
 
-        for (let item of Settings.config.file.projects) {
+        for (let item of Settings.config.projects) {
             try {
                 await git.pull(Settings.config.baseDir + "/" + item.projectFolder);
                 console.log(`- Repository ${item.packageName} pulled.`);
