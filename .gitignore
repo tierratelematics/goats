@@ -1,0 +1,6 @@
+npm-debug.log.*
+dist
+*.log
+.idea
+node_modules
+docker/build

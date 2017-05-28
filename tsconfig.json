@@ -1,0 +1,18 @@
+{
+  "compilerOptions": {
+    "target": "es5",
+    "jsx": "react",
+    "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
+    "module": "commonjs",
+    "types": [
+      "mocha",
+      "node"      
+    ],
+    "lib": [
+      "es5",
+      "es6",
+      "dom"
+    ]
+  }
+}
