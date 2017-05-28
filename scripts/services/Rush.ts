@@ -11,13 +11,14 @@ export class Rush {
         let current = process.cwd();
 
         for (let i = 0; i < 10; ++i) {
-            const config = path.join(current, "rush.json");
+            const configFile = path.join(current, "rush.json");
 
-            if (fs.existsSync(config)) {
+            if (fs.existsSync(configFile)) {
                 if (i > 0)
-                    console.log("Found configuration in " + config);
-                this.baseDir = path.dirname(config);
-                this.config = JSON.parse(fs.readFileSync(config, "utf8"));
+                    console.log("Found configuration in " + configFile);
+                this.baseDir = path.dirname(configFile);
+                this.config = JSON.parse(fs.readFileSync(configFile, "utf8"));
+                return;
             }
 
             const parent = path.dirname(current);

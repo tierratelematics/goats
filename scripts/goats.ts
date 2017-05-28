@@ -2,7 +2,6 @@
 import * as program from "commander";
 import { Tasks } from "./services/Tasks";
 
-
 program
     .version("0.0.1");
 
