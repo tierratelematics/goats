@@ -1,13 +1,24 @@
 # Goats
 
 A CLI tool for managing multi repos in [Rush](http://aka.ms/rush).
+Monorepos seems to be quite a convenient way of managing complex projects. Having everything on a single repository, however, might end up being as cumbersome as 
+handling just one single repository. In addition to that many projects start with a modular approach therefore migrating to a single repository might be problematic,
+especially with respect to repo merging and having to deal with external libraries which might need to be kept in sync regardless of the main repository.
 
-The tool assumes that you already have configured your *rush.json* file.
+Goats tries to solve these issues by bringing the best of the two worlds: a single code container split into multiple repositories. Most specifically Rush is used
+as the main system for keeping all the elements up to date, and reducing the cross-dependency hell. Goats aims at reducing the stress from all those repetitive tasks
+that multi repositories seems to suffer from, such as keeping in sync all the repositories, tracking dependencies and so on.
+
+Bear in mind that this is obviously an experimental tool, therefore many things may change in the future.
+
+## Prerequisites
+
+The tool assumes that you already have configured your *rush.json* file, and that you already have installed both rush and git on your system.
 
 ## Installation
 
 `
-$ npm install goats -g
+$ npm i -g goats
 `
 
 ## Usage
@@ -21,7 +32,19 @@ $ goats init [repository]
 If you want to `git pull` from all your repositories just issue a pull command in goat, which will scan all  of your repositories and perform a pull.
 
 `
-$ goats pull
+$ goats refresh
+`
+
+If you want to perform a checkout on a specific branch in all repositories you should issue
+
+`
+$ goats checkout [branch]
+`
+
+Last but not least, if you want to execute any command on any of your repositories (e.g. a gitflow start feature), you can use the conveniente run command
+
+`
+$ goat run [command] [arguments...]
 `
 
 ## Roadmap
