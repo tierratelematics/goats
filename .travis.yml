@@ -1,17 +1,17 @@
 language: node_js
 node_js:
-  - "6"
+- '6'
 install:
-  - npm install smild@~4.4.0 -g
-  - npm install
+- npm install smild@~4.4.0 -g
+- npm install
 script:
-  - smild build
+- smild build
 deploy:
   skip_cleanup: true
   provider: npm
   email: sysadmin@tierratelematics.com
   api_key:
-    secure: MuoJdxOHoFt43jihFBrC/w8mfL21JNxWupc+ziR0d4Bq5WAQ+wYvjHR5tXDmdNywf77enH8XUu+XQLgQN8ofTQgn2CbyAkGtImgabv14FIe8YorQ3ynpW5i9TzUg3ax+3CR8d64ggQFWwwag+UcUrprcgjqPVQR+DlQRcv0/nky+Mrt1He9QSSJg7Q9+UN+GqjCJw6kFDyhzFrONSctfAjhuP6FBtaE3t6bEMZVKenw1J4e3yXT+vK0tPEUfHN/qjT2pKOL+OdcyY21DYnZCRML5Sxcwda9M3b5+hM8MAB5x/o6RtghOUN3sZZ0IkjpT5JYtjihRUS/8AF3Fu9or7lwK8yePaB9UHrJVnoWOrp3NFng2PD9PijAu9m4dOEcnpk+2ZFn3YrGFeeHAUnUjR6ajO1+YkYRFtb59mfRQsWWfKA9ihJhBvZj7geS1vgQpWOssWw/v3vFOFD+9M4rY2f+AAWp3ZfxecqDNjQ9MArBoR8OiGdCR0ZziGcXtLRJ29C5hRnqJDLWJg64L+dIqrnBTo0/gOZhPRPPpuVrQ7iwsn9o5marEXYQ4dxAhqSetNMIhi6QXoXzvy4BkWWPSX85r92U3JJAszZVi8xLcDcTOybIGVYm7UpIMDv3Q8uPDkz5G/k8d1cDfInNF6R0qptokvXOr/NF52P7XzXxsGX4=
+    secure: YkJrWcfHr6h+J9GJdOMjHJ9duYTMe8HvVR8SU0Fr7TmtKaakKcISiqlbt79ugzUOi1kzt7JIXaGP27eb5MIO3mqPeb9Y3KkVyXs7qeQKL694YMJ6t1qP1Jo7SCda7lCR9+9VQRc1eIxLO/N58g+2cGk4yv/UckHFVPDKp1Gzu6mANlicr8HQ63ugzuihFR3CLdMLX8PrhabY3EMweYptwtNqdDbuZT/nuv5h4vZOtcH1s5R6tmW1NoEPqWj4PA1cqHXCUK+DZFUCV3g/Ev8KP8tO3yNOTnP4HO56tihJVn74ZQTVbUtN2QfVAfNdX8cgf/PfL/w+jESECUiDJleBGFUJSwoc6Os/wo6mPJfnPqb4U8rQAZ+8/poSFpdxh2oXY5Uu2KeR2DaVwgcp9z8AeIKu/JhRLRlkRuWmOiL4+fDVORs54MtX8BdfVmwgDDRWwAAXFrA9/I4gcRAtchdy4klmLdH0GuvcT79zTFcecMfGo9fiVhYu6S3kVqL21lHNPWRQbwIFhPvwG8tSXrlVQEHi3drxCFmh5PDUjZAfgnHJypebPd5h7nzHmAs/m5y/b1ih4XwkN/wjr+44fOzFWCadZxbNKHRw4VY+TqjxgjwtDhUnvUB1QbHaeqCSs8lYCK+lQv5Y2tiix4qfNPHYgHX3/i7cyVGc3tCRGiHZGk4=
   on:
     repo: tierratelematics/goats
     tags: true
