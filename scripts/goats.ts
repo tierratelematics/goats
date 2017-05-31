@@ -1,6 +1,7 @@
 #!/usr/bin/env node
 import * as program from "commander";
 import { Tasks } from "./services/Tasks";
+import * as shell from "shelljs";
 
 program
     .version("0.0.1");
@@ -25,6 +26,33 @@ program
     .command("run <cmd> [params...]")
     .description("Runs a command on all the repositories")
     .action((name, params) => { return Tasks.runCommand(name, params); });
+
+program
+    .command("link <folder>")
+    .option("-i, --ignore", "ignores the version for every package")
+    .description("Links the specified folder as an external library")
+    .action((folder, option) => { return Tasks.linkFolder(folder, option.ignore || false); });
+
+program
+    .command("rebuild [params...]")
+    .description("Runs the rush rebuild command")
+    .action(params => shell.exec("rush rebuild " + params.join(" ")));
+
+program
+    .command("install [params...]")
+    .description("Runs the rush install command")
+    .action(params => {
+        shell.exec("rush install " + params.join(" "));
+        console.log("You might want to run `goats link` for any external library you had");
+    });
+
+program
+    .command("generate [params...]")
+    .description("Runs the rush generte command")
+    .action(params => {
+        shell.exec("rush generate " + params.join(" "));
+        console.log("You might want to run `goats link` for any external library you had");
+    });
 
 program
     .command("*")
