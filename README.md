@@ -26,7 +26,7 @@ $ npm i -g goats
 In order to download all your repositories defined in Rush you will need to issue the *init* command and provide a base repository uri. Goat will create all the folders needed and clone the corresponding repositories. If a folder is already present goat will skip it.
 
 ```bash
-$ goats init \<repository\> [-b [branch]]
+$ goats init <repository> [-b [branch]]
 ```
 
 If you want to `git pull` from all your repositories just issue a pull command in goat, which will scan all  of your repositories and perform a pull.
@@ -38,13 +38,13 @@ $ goats refresh
 If you want to perform a checkout on a specific branch in all repositories you should issue
 
 ```bash
-$ goats checkout \<branch\>
+$ goats checkout <branch>
 ```
 
 For performing a link to an external library (which will subsequently link all the shared packages), you can use the link command
 
 ```bash
-$ goats link \<folder\>
+$ goats link <folder>
 ```
 
 In addition to the standard commands you also have a convenient relay over the most basic rush commands so that you can just use goats for all your need
@@ -57,7 +57,7 @@ $ goats install
 Last but not least, if you want to execute any command on any of your repositories (e.g. a gitflow start feature), you can use the conveniente run command
 
 ```bash
-$ goat run \<command\> [arguments...]
+$ goat run <command> [arguments...]
 ```
 
 ## Roadmap (proposal)
