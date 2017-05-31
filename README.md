@@ -17,42 +17,64 @@ The tool assumes that you already have configured your *rush.json* file, and tha
 
 ## Installation
 
-`
+```bash
 $ npm i -g goats
-`
+```
 
 ## Usage
 
 In order to download all your repositories defined in Rush you will need to issue the *init* command and provide a base repository uri. Goat will create all the folders needed and clone the corresponding repositories. If a folder is already present goat will skip it.
 
-`
-$ goats init [repository]
-`
+```bash
+$ goats init \<repository\> [-b [branch]]
+```
 
 If you want to `git pull` from all your repositories just issue a pull command in goat, which will scan all  of your repositories and perform a pull.
 
-`
+```bash
 $ goats refresh
-`
+```
 
 If you want to perform a checkout on a specific branch in all repositories you should issue
 
-`
-$ goats checkout [branch]
-`
+```bash
+$ goats checkout \<branch\>
+```
+
+For performing a link to an external library (which will subsequently link all the shared packages), you can use the link command
+
+```bash
+$ goats link \<folder\>
+```
+
+In addition to the standard commands you also have a convenient relay over the most basic rush commands so that you can just use goats for all your need
+
+```bash
+$ goats rebuild
+$ goats install
+```
 
 Last but not least, if you want to execute any command on any of your repositories (e.g. a gitflow start feature), you can use the conveniente run command
 
-`
-$ goat run [command] [arguments...]
-`
+```bash
+$ goat run \<command\> [arguments...]
+```
 
-## Roadmap
+## Roadmap (proposal)
 
-* Implement add and remove commands
-* Create changelogs on demand
-* Bump a new version for all the repos
-* ...
+* goats add \<name\> -d \<dir\> - Adds a new application in the given folder and changes rush.json accordingly
+* goats remove \<name\> - Removes the application from the rush.json
+* goats feature|ft start \<name\> - starts a feature branch on any repository
+* goats feature|ft end \<name\> - ends a feature branch on any repository
+* goats bump - Increments the version of any package given their gitflow status (patch for a hotfix branch, minor for a feature branch, nothing for everything else)
+* goats version [major|minor|patch] - done on a repository increments just that repository version
+* goats changelog - Updates the changelog on any repository
+* goats npm install|i \<name\> - adds a package to the package.json of the current project
+* goats npm uninstall|u \<name\> - removes a pachage to the package.json of the current project
+
+* Support multi repository modules
+* Support for hidden libraries
+* Extensibility mechanism (write your own goats commands)
 
 ## License
 
