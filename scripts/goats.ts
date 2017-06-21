@@ -3,8 +3,10 @@ import * as program from "commander";
 import { Tasks } from "./services/Tasks";
 import * as shell from "shelljs";
 
+let packageJson = require("../package.json");
+
 program
-    .version("0.0.1");
+    .version(packageJson.version)
 
 program
     .command("init <baseRepo>")
