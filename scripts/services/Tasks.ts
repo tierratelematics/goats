@@ -128,10 +128,10 @@ export class Tasks {
 
         for (let item of Settings.config.projects) {
             try {
-                let destFolder = Settings.folder + "/" + item.projectFolder;
+                let destFolder: string = Settings.folder + "/" + item.projectFolder;
                 shell.exec(`git flow feature ${action} ${name}`, { cwd: destFolder });
                 if (action === "start") {
-                    await git.push(`${Settings.folder}/${item.projectFolder}`, "origin", `feature/${name}`);
+                    await git.push(destFolder, "origin", `feature/${name}`);
                 }
                 console.log(`- Run on ${item.packageName} done.`);
             } catch (err) {
