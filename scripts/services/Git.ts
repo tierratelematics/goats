@@ -20,4 +20,8 @@ export class Git {
     checkout(folder: string, branch: string) {
         shell.exec(`git checkout --quiet ${branch}`, { cwd: folder });
     }
+
+    push(folder: string, ...options: string[]) {
+        shell.exec(`git push ${options.join(" ")}`, { cwd: folder });
+    }
 }
