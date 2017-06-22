@@ -119,4 +119,24 @@ export class Tasks {
         shell.ln("-sf", externalPath, path.join(Settings.folder, "common/temp/node_modules", packageFile.name));
         console.log("Done. You might want to run 'goats rebuild'.");
     }
+
+    static async gitFlowFeatureCommands(action: string, name: string) {
+        console.log("");
+        console.log(`${action} the ${name} feature...`);
+
+        let git = new Git(Settings.repository);
+
+        for (let item of Settings.config.projects) {
+            try {
+                let destFolder = Settings.folder + "/" + item.projectFolder;
+                shell.exec(`git flow feature ${action} ${name}`, { cwd: destFolder });
+                if (action === "start") {
+                    await git.push(`${Settings.folder}/${item.projectFolder}`, "origin", `feature/${name}`);
+                }
+                console.log(`- Run on ${item.packageName} done.`);
+            } catch (err) {
+                console.error(err);
+            }
+        }
+    }
 }
