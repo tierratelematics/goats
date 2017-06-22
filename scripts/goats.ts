@@ -6,7 +6,7 @@ import * as shell from "shelljs";
 let packageJson = require("../package.json");
 
 program
-    .version(packageJson.version)
+    .version(packageJson.version);
 
 program
     .command("init <baseRepo>")
@@ -55,6 +55,13 @@ program
         shell.exec("rush generate " + params.join(" "));
         console.log("You might want to run `goats link` for any external library you had");
     });
+
+
+program
+    .command("feature <action> <name>")
+    .alias("ft")
+    .description("Run a feature's command in all the repositories")
+    .action((action, name) => { return Tasks.gitFlowFeatureCommands(action, name); });
 
 program
     .command("*")
