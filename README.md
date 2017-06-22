@@ -41,6 +41,11 @@ If you want to perform a checkout on a specific branch in all repositories you s
 $ goats checkout <branch>
 ```
 
+If you want to start/finish a feature branch on any repository, you can you use the command
+```bash
+$ goats feature|ft start/finish <name>
+```
+
 For performing a link to an external library (which will subsequently link all the shared packages), you can use the link command
 
 ```bash
@@ -64,8 +69,6 @@ $ goat run <command> [arguments...]
 
 * goats add \<name\> -d \<dir\> - Adds a new application in the given folder and changes rush.json accordingly
 * goats remove \<name\> - Removes the application from the rush.json
-* goats feature|ft start \<name\> - starts a feature branch on any repository
-* goats feature|ft end \<name\> - ends a feature branch on any repository
 * goats bump - Increments the version of any package given their gitflow status (patch for a hotfix branch, minor for a feature branch, nothing for everything else)
 * goats version [major|minor|patch] - done on a repository increments just that repository version
 * goats changelog - Updates the changelog on any repository
