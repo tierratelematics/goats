@@ -58,7 +58,7 @@ export class Tasks {
         }
     }
 
-    static async runCommand(command: string, ...parameters: string[]) {
+    static async runCommand(command: string, parameters: string[]) {
         console.log("");
         console.log(`Running ${command}...`);
 
