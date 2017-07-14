@@ -139,4 +139,20 @@ export class Tasks {
             }
         }
     }
+
+    static async moduleVersionCommand(name: string) {
+        console.log("");
+        console.log(`Check the version of the module ${name} ...`);
+
+        for (let item of Settings.config.projects) {
+            try {
+                let packageDict = require(`${Settings.folder}/${item.projectFolder}/package.json`);
+                let modules = _.merge(packageDict.dependencies, packageDict.optionalDependencies, packageDict.devDependencies);
+
+                console.log(`[${item.packageName}] ${name}: ${modules[name] ? modules[name] : "Not found"}`);
+            } catch (err) {
+                console.error(err);
+            }
+        }
+    }
 }

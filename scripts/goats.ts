@@ -64,6 +64,11 @@ program
     .action((action, name) => { return Tasks.gitFlowFeatureCommands(action, name); });
 
 program
+    .command("module <name>")
+    .description("Retrieve the version of a module for every repository")
+    .action((name) => { return Tasks.moduleVersionCommand(name); });
+
+program
     .command("*")
     .action(() => program.help());
 
