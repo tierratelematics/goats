@@ -124,6 +124,9 @@ export class Tasks {
         console.log("");
         console.log(`${action} the ${name} feature...`);
 
+        if (_.startsWith(name, "feature/"))
+            throw new Error("The name must not start with feature/");
+
         let git = new Git(Settings.repository);
 
         for (let item of Settings.config.projects) {
