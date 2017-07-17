@@ -9,7 +9,7 @@ export class Module {
         this.version = version;
     }
 
-    public replaceVersionInside(dependencies: Dictionary<string>) {
+    public replaceVersionInside(dependencies: Dictionary<string>): Dictionary<string> {
         if (dependencies && dependencies[this.name])
             dependencies[this.name] = this.version;
 
