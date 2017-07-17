@@ -158,6 +158,7 @@ export class Tasks {
                 packageDict.devDependencies = module.replaceVersionInside(packageDict.devDependencies);
 
                 fs.writeFileSync(`${Settings.folder}/${item.projectFolder}/package.json`, JSON.stringify(packageDict, null, 4));
+                console.log(`- Run on ${item.packageName} done.`);
             } catch (err) {
                 console.error(err);
             }
