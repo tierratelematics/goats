@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 import * as program from "commander";
-import { Tasks } from "./services/Tasks";
+import {Tasks} from "./services/Tasks";
 import * as shell from "shelljs";
 
 let packageJson = require("../package.json");
@@ -22,18 +22,24 @@ program
 program
     .command("checkout <branch>")
     .description("Checks out the repositories to a specific branch")
-    .action(branch => { return Tasks.checkoutRepos(branch); });
+    .action(branch => {
+        return Tasks.checkoutRepos(branch);
+    });
 
 program
     .command("run <cmd> [params...]")
     .description("Runs a command on all the repositories")
-    .action((name, params) => { return Tasks.runCommand(name, params); });
+    .action((name, params) => {
+        return Tasks.runCommand(name, params);
+    });
 
 program
     .command("link <folder>")
     .option("-i, --ignore", "ignores the version for every package")
     .description("Links the specified folder as an external library")
-    .action((folder, option) => { return Tasks.linkFolder(folder, option.ignore || false); });
+    .action((folder, option) => {
+        return Tasks.linkFolder(folder, option.ignore || false);
+    });
 
 program
     .command("rebuild [params...]")
@@ -61,12 +67,20 @@ program
     .command("feature <action> <name>")
     .alias("ft")
     .description("Run a feature's command in all the repositories")
-    .action((action, name) => { return Tasks.gitFlowFeatureCommands(action, name); });
+    .action((action, name) => {
+        return Tasks.gitFlowFeatureCommands(action, name);
+    });
 
 program
     .command("module <name>")
+    .option("-r, --replace [version]", "replace the version of the module")
     .description("Retrieve the version of a module for every repository")
-    .action((name) => { return Tasks.moduleVersionCommand(name); });
+    .action((name, option) => {
+        if (option.replace)
+            return Tasks.moduleReplaceVersionCommand(name, option.replace);
+        else
+            return Tasks.moduleVersionCommand(name);
+    });
 
 program
     .command("*")

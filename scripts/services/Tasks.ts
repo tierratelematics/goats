@@ -4,6 +4,7 @@ import { Git } from "./Git";
 import { Settings } from "./Settings";
 import * as _ from "lodash";
 import * as shell from "shelljs";
+import {Module} from "./Module";
 
 export class Tasks {
     static async cloneRepos(baseRepo: string, branch?: string) {
@@ -137,6 +138,26 @@ export class Tasks {
                     await git.push(destFolder, "origin", `feature/${name}`);
                 }
                 console.log(`- Run on ${item.packageName} done.`);
+            } catch (err) {
+                console.error(err);
+            }
+        }
+    }
+
+    static async moduleReplaceVersionCommand(name: string, version: string) {
+        console.log("");
+        console.log(`Replace the new version ${version} of the module ${name} ...`);
+
+        let module = new Module(name, version);
+
+        for (let item of Settings.config.projects) {
+            try {
+                let packageDict = require(`${Settings.folder}/${item.projectFolder}/package.json`);
+                packageDict.dependencies = module.replaceVersionInside(packageDict.dependencies);
+                packageDict.optionalDependencies = module.replaceVersionInside(packageDict.optionalDependencies);
+                packageDict.devDependencies = module.replaceVersionInside(packageDict.devDependencies);
+
+                fs.writeFileSync(`${Settings.folder}/${item.projectFolder}/package.json`, JSON.stringify(packageDict, null, 4));
             } catch (err) {
                 console.error(err);
             }
