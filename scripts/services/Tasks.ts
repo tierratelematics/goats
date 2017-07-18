@@ -1,7 +1,7 @@
 import * as fs from "fs-extra";
 import * as path from "path";
-import { Git } from "./Git";
-import { Settings } from "./Settings";
+import {Git} from "./Git";
+import {Settings} from "./Settings";
 import * as _ from "lodash";
 import * as shell from "shelljs";
 import {Module} from "./Module";
@@ -66,7 +66,7 @@ export class Tasks {
         for (let item of Settings.config.projects) {
             try {
                 let destFolder = Settings.folder + "/" + item.projectFolder;
-                shell.exec(command + " " + parameters.join(" "), { cwd: destFolder });
+                shell.exec(command + " " + parameters.join(" "), {cwd: destFolder});
                 console.log(`- Run on ${item.packageName} done.`);
             } catch (err) {
                 console.error(err);
@@ -79,7 +79,7 @@ export class Tasks {
         console.log(`Linking ${folder} with ${ignoreVersions ? "NO version check" : "version check"}...`);
 
         let externalPath = path.join(process.cwd(), folder);
-        let packageFile = fs.readJsonSync(path.join(externalPath, "package.json"), { encoding: "utf-8" });
+        let packageFile = fs.readJsonSync(path.join(externalPath, "package.json"), {encoding: "utf-8"});
         let dependencies = _.concat(
             _.keys(packageFile.dependencies),
             _.keys(packageFile.devDependencies),
@@ -91,11 +91,16 @@ export class Tasks {
 
         let packages = _.map(dependencies, packagePath => {
             try {
-                let file = fs.readJsonSync(path.join(modulePath, packagePath, "package.json"), { encoding: "utf-8" });
-                return { name: file.name, version: file.version };
-            } catch (e) { return; }
+                let file = fs.readJsonSync(path.join(modulePath, packagePath, "package.json"), {encoding: "utf-8"});
+                return {name: file.name, version: file.version};
+            } catch (e) {
+                return;
+            }
         }).filter(f => f !== undefined)
-            .reduce((prev, current) => { prev[current.name] = { version: current.version }; return prev; }, {});
+            .reduce((prev, current) => {
+                prev[current.name] = {version: current.version};
+                return prev;
+            }, {});
 
         let shrinkwrap = fs.readJsonSync(path.join(Settings.folder, "common/config/rush/npm-shrinkwrap.json")).dependencies;
 
@@ -133,7 +138,7 @@ export class Tasks {
         for (let item of Settings.config.projects) {
             try {
                 let destFolder: string = Settings.folder + "/" + item.projectFolder;
-                shell.exec(`git flow feature ${action} ${name}`, { cwd: destFolder });
+                shell.exec(`git flow feature ${action} ${name}`, {cwd: destFolder});
                 if (action === "start") {
                     await git.push(destFolder, "origin", `feature/${name}`);
                 }
@@ -156,6 +161,7 @@ export class Tasks {
                 packageDict.dependencies = module.replaceVersionInside(packageDict.dependencies);
                 packageDict.optionalDependencies = module.replaceVersionInside(packageDict.optionalDependencies);
                 packageDict.devDependencies = module.replaceVersionInside(packageDict.devDependencies);
+                packageDict.peerDependencies = module.replaceVersionInside(packageDict.peerDependencies);
 
                 fs.writeFileSync(`${Settings.folder}/${item.projectFolder}/package.json`, JSON.stringify(packageDict, null, 4));
                 console.log(`- Run on ${item.packageName} done.`);
@@ -172,7 +178,8 @@ export class Tasks {
         for (let item of Settings.config.projects) {
             try {
                 let packageDict = require(`${Settings.folder}/${item.projectFolder}/package.json`);
-                let modules = _.merge(packageDict.dependencies, packageDict.optionalDependencies, packageDict.devDependencies);
+                let modules = _.merge(packageDict.dependencies, packageDict.optionalDependencies,
+                                      packageDict.devDependencies, packageDict.peerDependencies);
 
                 console.log(`[${item.packageName}] ${name}: ${modules[name] ? modules[name] : "Not found"}`);
             } catch (err) {
