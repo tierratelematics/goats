@@ -63,7 +63,7 @@ program
     });
 
 program
-    .command("findCommits <target>")
+    .command("find-commits <target>")
     .description("Number of commit for each repository with specific target")
     .action((target) => Tasks.numberFindCommitsCommand(target));
 
