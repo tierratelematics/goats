@@ -62,6 +62,10 @@ program
         console.log("You might want to run `goats link` for any external library you had");
     });
 
+program
+    .command("findCommits <target>")
+    .description("Number of commit for each repository with specific target")
+    .action((target) => Tasks.numberFindCommitsCommand(target));
 
 program
     .command("feature <action> <name>")
