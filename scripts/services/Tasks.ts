@@ -5,6 +5,7 @@ import {Settings} from "./Settings";
 import * as _ from "lodash";
 import * as shell from "shelljs";
 import {Module} from "./Module";
+import {Readable} from "stream";
 
 export class Tasks {
     static async cloneRepos(baseRepo: string, branch?: string) {
@@ -182,6 +183,22 @@ export class Tasks {
                                       packageDict.devDependencies, packageDict.peerDependencies);
 
                 console.log(`[${item.packageName}] ${name}: ${modules[name] ? modules[name] : "Not found"}`);
+            } catch (err) {
+                console.error(err);
+            }
+        }
+    }
+
+    static async numberFindCommitsCommand(target: string) {
+        console.log("");
+        console.log(`Retrieve the number of commit with the target ${target}...`);
+
+        let git = new Git(Settings.repository);
+
+        for (let item of Settings.config.projects) {
+            try {
+                let numberCommit = await git.numberCommit(Settings.folder + "/" + item.projectFolder, target);
+                console.log(`[${item.packageName}] Number commit: ${numberCommit}`);
             } catch (err) {
                 console.error(err);
             }
