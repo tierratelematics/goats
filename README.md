@@ -65,6 +65,12 @@ To discover the version of a specif module inside every repository you can use t
 $ goats module <name>
 ```
 
+To discover the number of commit with a specific target you can use the findCommits command
+
+```bash
+$ goats findCommits <target>
+```
+
 To replace the version of a specif module inside every repository you can use the module command
 
 ```bash
