@@ -29,6 +29,10 @@ export class Git {
         return shell.exec("git rev-parse --abbrev-ref HEAD", {cwd: folder, silent: true}).stdout.toString().trim();
     }
 
+    lastTag(folder: string): string {
+        return shell.exec("git describe --abbrev=0 --tags", {cwd: folder, silent: true}).stdout.toString().trim();
+    }
+
     numberCommit(folder: string, target: string) {
         return shell.exec(`git log | egrep "${target}" | wc -l`, {
             cwd: folder,

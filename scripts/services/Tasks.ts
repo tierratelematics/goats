@@ -5,7 +5,6 @@ import {Settings} from "./Settings";
 import * as _ from "lodash";
 import * as shell from "shelljs";
 import {Module} from "./Module";
-import {Readable} from "stream";
 
 export class Tasks {
     static async cloneRepos(baseRepo: string, branch?: string) {
@@ -150,7 +149,7 @@ export class Tasks {
         }
     }
 
-    static async moduleReplaceVersionCommand(name: string, version: string) {
+    static async packageModuleReplaceVersionCommand(name: string, version: string) {
         console.log("");
         console.log(`Replace the new version ${version} of the module ${name} ...`);
 
@@ -172,7 +171,32 @@ export class Tasks {
         }
     }
 
-    static async moduleVersionCommand(name: string) {
+    static async infoCommand(projectName: string, last: boolean, check: boolean) {
+        console.log("");
+        console.log(`Check versions...`);
+
+        let projects = (projectName) ? [{
+            projectFolder: `modules/${projectName}`,
+            packageName: projectName
+        }] : Settings.config.projects;
+
+        for (let item of projects) {
+            try {
+                let module = new Module(item.packageName, "", item.projectFolder);
+                console.log(`[${item.packageName}] version: ${module.getVersion((check) ? true : last)}`);
+
+                if (check) {
+                    let resultCheck = module.sameVersion();
+                    if (!resultCheck.result)
+                        console.warn(`[${item.packageName}] version (${resultCheck.versions.npm}) different to last git tag (${resultCheck.versions.git})`);
+                }
+            } catch (err) {
+                console.error(err);
+            }
+        }
+    }
+
+    static async packageModuleVersionCommand(name: string) {
         console.log("");
         console.log(`Check the version of the module ${name} ...`);
 
@@ -180,12 +204,13 @@ export class Tasks {
             try {
                 let packageDict = require(`${Settings.folder}/${item.projectFolder}/package.json`);
                 let modules = _.merge(packageDict.dependencies, packageDict.optionalDependencies,
-                                      packageDict.devDependencies, packageDict.peerDependencies);
+                    packageDict.devDependencies, packageDict.peerDependencies);
 
                 console.log(`[${item.packageName}] ${name}: ${modules[name] ? modules[name] : "Not found"}`);
             } catch (err) {
                 console.error(err);
             }
+
         }
     }
 
