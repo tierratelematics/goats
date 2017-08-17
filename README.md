@@ -77,6 +77,18 @@ To replace the version of a specif module inside every repository you can use th
 $ goats module <name> --replace [version]
 ```
 
+To discover the versions of every repository you can use the module command
+
+```bash
+$ goats info
+```
+
+To discover the last version of a repository you can use the module command
+
+```bash
+$ goats info -p <project> -l
+```
+
 Last but not least, if you want to execute any command on any of your repositories (e.g. a gitflow start feature), you can use the conveniente run command
 
 ```bash
