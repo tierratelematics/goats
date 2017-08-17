@@ -63,6 +63,13 @@ program
     });
 
 program
+    .command("info")
+    .description("Show versions list for each repository")
+    .option("-p, --project <project>", "replace the version of the module")
+    .option("-l, --last", "replace the version of the module")
+    .action((option) => Tasks.infoCommand(option.project, !!(option.last)));
+
+program
     .command("find-commits <target>")
     .description("Number of commit for each repository with specific target")
     .action((target) => Tasks.numberFindCommitsCommand(target));

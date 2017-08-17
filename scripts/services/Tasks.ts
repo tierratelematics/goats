@@ -6,6 +6,7 @@ import * as _ from "lodash";
 import * as shell from "shelljs";
 import {Module} from "./Module";
 import {Readable} from "stream";
+import {Npm} from "./Npm";
 
 export class Tasks {
     static async cloneRepos(baseRepo: string, branch?: string) {
@@ -172,6 +173,26 @@ export class Tasks {
         }
     }
 
+    static async infoCommand(projectName: string, last: boolean) {
+        console.log("");
+        console.log(`Check versions...`);
+
+        let npm = new Npm();
+
+        if (projectName) {
+            console.log(`[${projectName}] ${npm.version(projectName, last)}`);
+            return;
+        }
+
+        for (let item of Settings.config.projects) {
+            try {
+                console.log(`[${item.packageName}] ${npm.version(item.packageName, last)}`);
+            } catch (err) {
+                console.error(err);
+            }
+        }
+    }
+
     static async moduleVersionCommand(name: string) {
         console.log("");
         console.log(`Check the version of the module ${name} ...`);
@@ -180,12 +201,13 @@ export class Tasks {
             try {
                 let packageDict = require(`${Settings.folder}/${item.projectFolder}/package.json`);
                 let modules = _.merge(packageDict.dependencies, packageDict.optionalDependencies,
-                                      packageDict.devDependencies, packageDict.peerDependencies);
+                    packageDict.devDependencies, packageDict.peerDependencies);
 
                 console.log(`[${item.packageName}] ${name}: ${modules[name] ? modules[name] : "Not found"}`);
             } catch (err) {
                 console.error(err);
             }
+
         }
     }
 
