@@ -5,8 +5,6 @@ import {Settings} from "./Settings";
 import * as _ from "lodash";
 import * as shell from "shelljs";
 import {Module} from "./Module";
-import {Readable} from "stream";
-import {Npm} from "./Npm";
 
 export class Tasks {
     static async cloneRepos(baseRepo: string, branch?: string) {
@@ -177,14 +175,21 @@ export class Tasks {
         console.log("");
         console.log(`Check versions...`);
 
-        if (projectName) {
-            await Tasks.versionCommand(projectName, last, check, `modules/${projectName}`);
-            return;
-        }
+        let projects = (projectName) ? [{
+            projectFolder: `modules/${projectName}`,
+            packageName: projectName
+        }] : Settings.config.projects;
 
-        for (let item of Settings.config.projects) {
+        for (let item of projects) {
             try {
-                await Tasks.versionCommand(item.packageName, last, check, item.projectFolder);
+                let module = new Module(item.packageName, "", item.projectFolder);
+                console.log(`[${item.packageName}] version: ${module.getVersion((check) ? true : last)}`);
+
+                if (check) {
+                    let resultCheck = module.sameVersion();
+                    if (!resultCheck.result)
+                        console.warn(`[${item.packageName}] version (${resultCheck.versions.npm}) different to last git tag (${resultCheck.versions.git})`);
+                }
             } catch (err) {
                 console.error(err);
             }
@@ -222,22 +227,6 @@ export class Tasks {
             } catch (err) {
                 console.error(err);
             }
-        }
-    }
-
-    static async versionCommand(projectName: string, last: boolean, check: boolean, folder: string) {
-        try {
-            last = (check) ? true : last;
-
-            let npmVersion = new Npm().version(projectName, last);
-            let gitTag = new Git(Settings.repository).lastTag(Settings.folder + "/" + folder);
-
-            if (check && npmVersion && npmVersion !== gitTag)
-                console.warn(`[WARN - ${projectName}] npm version (${npmVersion}) different to last git tag version (${gitTag})`);
-
-            console.log(`[${projectName}] ${npmVersion}`);
-        } catch (err) {
-            console.error(err);
         }
     }
 }
