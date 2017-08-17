@@ -151,7 +151,7 @@ export class Tasks {
         }
     }
 
-    static async moduleReplaceVersionCommand(name: string, version: string) {
+    static async packageModuleReplaceVersionCommand(name: string, version: string) {
         console.log("");
         console.log(`Replace the new version ${version} of the module ${name} ...`);
 
@@ -173,27 +173,25 @@ export class Tasks {
         }
     }
 
-    static async infoCommand(projectName: string, last: boolean) {
+    static async infoCommand(projectName: string, last: boolean, check: boolean) {
         console.log("");
         console.log(`Check versions...`);
 
-        let npm = new Npm();
-
         if (projectName) {
-            console.log(`[${projectName}] ${npm.version(projectName, last)}`);
+            await Tasks.versionCommand(projectName, last, check, `modules/${projectName}`);
             return;
         }
 
         for (let item of Settings.config.projects) {
             try {
-                console.log(`[${item.packageName}] ${npm.version(item.packageName, last)}`);
+                await Tasks.versionCommand(item.packageName, last, check, item.projectFolder);
             } catch (err) {
                 console.error(err);
             }
         }
     }
 
-    static async moduleVersionCommand(name: string) {
+    static async packageModuleVersionCommand(name: string) {
         console.log("");
         console.log(`Check the version of the module ${name} ...`);
 
@@ -224,6 +222,22 @@ export class Tasks {
             } catch (err) {
                 console.error(err);
             }
+        }
+    }
+
+    static async versionCommand(projectName: string, last: boolean, check: boolean, folder: string) {
+        try {
+            last = (check) ? true : last;
+
+            let npmVersion = new Npm().version(projectName, last);
+            let gitTag = new Git(Settings.repository).lastTag(Settings.folder + "/" + folder);
+
+            if (check && npmVersion && npmVersion !== gitTag)
+                console.warn(`[WARN - ${projectName}] npm version (${npmVersion}) different to last git tag version (${gitTag})`);
+
+            console.log(`[${projectName}] ${npmVersion}`);
+        } catch (err) {
+            console.error(err);
         }
     }
 }
