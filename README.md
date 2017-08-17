@@ -77,13 +77,13 @@ To replace the version of a specif module inside every repository you can use th
 $ goats module <name> --replace [version]
 ```
 
-To discover the versions of every repository you can use the module command
+To discover the versions of every repository you can use the info command
 
 ```bash
 $ goats info
 ```
 
-To discover the last version of a repository you can use the module command
+To discover the latest version of a repository you can use the info command
 
 ```bash
 $ goats info -p <project> -l
