@@ -63,6 +63,14 @@ program
     });
 
 program
+    .command("info")
+    .description("Show versions list for each repository")
+    .option("-p, --project <project>", "retrieve the version only for the <project>")
+    .option("-l, --last", "retrieve only the last version")
+    .option("-c, --check", "compare git tag with project tag")
+    .action((option) => Tasks.infoCommand(option.project, !!(option.last), !!(option.check)));
+
+program
     .command("find-commits <target>")
     .description("Number of commit for each repository with specific target")
     .action((target) => Tasks.numberFindCommitsCommand(target));
@@ -81,9 +89,9 @@ program
     .description("Retrieve the version of a module for every repository")
     .action((name, option) => {
         if (option.replace)
-            return Tasks.moduleReplaceVersionCommand(name, option.replace);
+            return Tasks.packageModuleReplaceVersionCommand(name, option.replace);
         else
-            return Tasks.moduleVersionCommand(name);
+            return Tasks.packageModuleVersionCommand(name);
     });
 
 program
