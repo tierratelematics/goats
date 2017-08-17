@@ -65,8 +65,8 @@ program
 program
     .command("info")
     .description("Show versions list for each repository")
-    .option("-p, --project <project>", "replace the version of the module")
-    .option("-l, --last", "replace the version of the module")
+    .option("-p, --project <project>", "retrieve the version only for the <project>")
+    .option("-l, --last", "retrieve only the last version")
     .action((option) => Tasks.infoCommand(option.project, !!(option.last)));
 
 program
