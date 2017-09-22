@@ -41,9 +41,9 @@ If you want to perform a checkout on a specific branch in all repositories you s
 $ goats checkout <branch>
 ```
 
-If you want to start/finish a feature branch on any repository, you can you use the command
+If you want to start/finish a feature branch on a list of projects, you can you use the command
 ```bash
-$ goats feature|ft start/finish <name>
+$ goats feature|ft start/finish <name> [projects...]
 ```
 
 For performing a link to an external library (which will subsequently link all the shared packages), you can use the link command
