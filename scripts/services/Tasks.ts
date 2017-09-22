@@ -48,11 +48,12 @@ export class Tasks {
         console.log(`Checkout repos to ${branch}...`);
 
         let git = new Git(Settings.repository);
+        let branchCheckout: String;
 
         for (let item of Settings.config.projects) {
             try {
-                await git.checkout(Settings.folder + "/" + item.projectFolder, branch);
-                console.log(`- Repository ${item.packageName} checked out to ${branch}.`);
+                branchCheckout = await git.checkout(Settings.folder + "/" + item.projectFolder, branch);
+                console.log(`- Repository ${item.packageName} checked out to ${branchCheckout}.`);
             } catch (err) {
                 console.error(err);
             }
@@ -126,23 +127,32 @@ export class Tasks {
         console.log("Done. You might want to run 'goats rebuild'.");
     }
 
-    static async gitFlowFeatureCommands(action: string, name: string) {
+    static async gitFlowFeatureCommands(action: string, name: string, projects: String[]) {
         console.log("");
-        console.log(`${action} the ${name} feature...`);
-
-        if (_.startsWith(name, "feature/"))
-            throw new Error("The name must not start with feature/");
+        console.log(`${action} the ${name} feature inside projects ${projects.join(" ")}...`);
+        let configProjectsList = (action === "start") ?
+            _.intersectionWith(Settings.config.projects, projects, (config, project) => config.packageName === project) :
+            Settings.config.projects;
 
         let git = new Git(Settings.repository);
-
-        for (let item of Settings.config.projects) {
+        for (let item of configProjectsList) {
             try {
                 let destFolder: string = Settings.folder + "/" + item.projectFolder;
-                shell.exec(`git flow feature ${action} ${name}`, {cwd: destFolder});
                 if (action === "start") {
-                    await git.push(destFolder, "origin", `feature/${name}`);
+                    console.log(`- Start on ${item.packageName} done.`);
+
+                    git.createBranch(destFolder, name);
                 }
-                console.log(`- Run on ${item.packageName} done.`);
+                else if (action === "finish" && git.hasBranch(destFolder, name)) {
+                    console.log(`- Finish on ${item.packageName} done.`);
+                    git.checkout(destFolder, name);
+                    git.pull(destFolder);
+
+                    git.checkout(destFolder, "master");
+                    git.merge(destFolder, name);
+                    git.push(destFolder, "origin", "master");
+                    git.deleteBranch(destFolder, name);
+                }
             } catch (err) {
                 console.error(err);
             }
