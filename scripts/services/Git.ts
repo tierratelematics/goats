@@ -17,8 +17,10 @@ export class Git {
         shell.exec(`git merge --quiet --ff-only`, {cwd: folder});
     }
 
-    checkout(folder: string, branch: string) {
+    checkout(folder: string, branch: string): string {
+        branch = this.hasBranch(folder, branch) ? branch : "master";
         shell.exec(`git checkout --quiet ${branch}`, {cwd: folder});
+        return branch;
     }
 
     push(folder: string, ...options: string[]) {
@@ -38,5 +40,34 @@ export class Git {
             cwd: folder,
             silent: true
         }).stdout.toString().trim();
+    }
+
+    createBranch(folder: string, branchName: string) {
+        if (this.hasBranch(folder, branchName)) {
+            this.checkout(folder, branchName);
+            return;
+        }
+
+        this.checkout(folder, "master");
+        this.pull(folder);
+
+        shell.exec(`git checkout -b ${branchName}`, {cwd: folder});
+        this.push(folder, "origin", branchName);
+    }
+
+
+    merge(folder: string, branchName: string) {
+        shell.exec(`git merge origin ${branchName}`, {cwd: folder});
+    }
+
+    deleteBranch(folder: string, branchName: string) {
+        shell.exec(`git branch -d ${branchName}`, {cwd: folder});
+        shell.exec(`git push origin --delete ${branchName}`, {cwd: folder});
+    }
+
+    hasBranch(folder: string, branchName: string): boolean {
+        shell.exec(`git fetch --quiet --all`, {cwd: folder});
+        return shell.exec(`git branch -a | egrep ${branchName} | wc -l`, {cwd: folder, silent: true})
+            .stdout.toString().trim() !== "0";
     }
 }
