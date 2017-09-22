@@ -24,7 +24,6 @@ export class Git {
     }
 
     push(folder: string, ...options: string[]) {
-        console.log(`git push ${options.join(" ")}`);
         shell.exec(`git push ${options.join(" ")}`, {cwd: folder});
     }
 
