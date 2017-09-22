@@ -76,11 +76,11 @@ program
     .action((target) => Tasks.numberFindCommitsCommand(target));
 
 program
-    .command("feature <action> <name>")
+    .command("feature <action> <name> [projects...]")
     .alias("ft")
-    .description("Run a feature's command in all the repositories")
-    .action((action, name) => {
-        return Tasks.gitFlowFeatureCommands(action, name);
+    .description("Run a feature's command in the projects declared")
+    .action((action, name, projects) => {
+        return Tasks.gitFlowFeatureCommands(action, name, projects);
     });
 
 program
