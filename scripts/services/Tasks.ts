@@ -5,6 +5,7 @@ import {Settings} from "./Settings";
 import * as _ from "lodash";
 import * as shell from "shelljs";
 import {Module} from "./Module";
+import {Feature} from "./Feature";
 
 export class Tasks {
     static async cloneRepos(baseRepo: string, branch?: string) {
@@ -140,18 +141,11 @@ export class Tasks {
                 let destFolder: string = Settings.folder + "/" + item.projectFolder;
                 if (action === "start") {
                     console.log(`- Start on ${item.packageName} done.`);
-
-                    git.createBranch(destFolder, name);
+                    Feature.start(destFolder, name);
                 }
                 else if (action === "finish" && git.hasBranch(destFolder, name)) {
                     console.log(`- Finish on ${item.packageName} done.`);
-                    git.checkout(destFolder, name);
-                    git.pull(destFolder);
-
-                    git.checkout(destFolder, "master");
-                    git.merge(destFolder, name);
-                    git.push(destFolder, "origin", "master");
-                    git.deleteBranch(destFolder, name);
+                    Feature.finish(destFolder, name);
                 }
             } catch (err) {
                 console.error(err);
