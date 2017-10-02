@@ -27,6 +27,10 @@ export class Git {
         shell.exec(`git push ${options.join(" ")}`, {cwd: folder});
     }
 
+    commit(folder: string, message: string) {
+        shell.exec(`git commit -a -m "${message}"`, {cwd: folder});
+    }
+
     currentBranch(folder: string): string {
         return shell.exec("git rev-parse --abbrev-ref HEAD", {cwd: folder, silent: true}).stdout.toString().trim();
     }
@@ -58,6 +62,10 @@ export class Git {
 
     merge(folder: string, branchName: string) {
         shell.exec(`git merge origin ${branchName}`, {cwd: folder});
+    }
+
+    add(folder: string, fileName: string) {
+        shell.exec(`git add ${fileName}`, {cwd: folder});
     }
 
     deleteBranch(folder: string, branchName: string) {
