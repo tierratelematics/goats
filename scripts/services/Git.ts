@@ -78,4 +78,8 @@ export class Git {
         return shell.exec(`git branch -a | egrep ${branchName} | wc -l`, {cwd: folder, silent: true})
             .stdout.toString().trim() !== "0";
     }
+
+    headTag(folder: string): string {
+        return shell.exec(`git tag --contains HEAD`, {cwd: folder, silent: true}).stdout.toString().trim();
+    }
 }
