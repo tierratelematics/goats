@@ -82,4 +82,12 @@ export class Git {
     headTag(folder: string): string {
         return shell.exec(`git tag --contains HEAD`, {cwd: folder, silent: true}).stdout.toString().trim();
     }
+
+    diff(folder: string, branchToCompare: string, baseBranch: string): string {
+        shell.exec(`git fetch --quiet --all`, {cwd: folder, silent: true});
+        return shell.exec(`git diff ${branchToCompare} origin ${baseBranch}`, {
+            cwd: folder,
+            silent: true
+        }).stdout.toString().trim();
+    }
 }

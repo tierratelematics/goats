@@ -46,6 +46,11 @@ If you want to start/finish a feature branch on a list of projects, you can you 
 $ goats feature|ft start/finish <name> [projects...]
 ```
 
+If you want to know the differences between your current branch and a specific branch you can use:
+```bash
+$ goats diff <baseBranch> [--show-changes]
+```
+
 For performing a link to an external library (which will subsequently link all the shared packages), you can use the link command
 
 ```bash

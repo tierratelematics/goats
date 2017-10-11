@@ -175,6 +175,30 @@ export class Tasks {
         }
     }
 
+    static async diffCommand(baseBranch: string, showChanges: boolean) {
+        console.log("");
+        console.log(`Show differences between current branch and ${baseBranch} ...`);
+
+        let git = new Git(Settings.repository);
+
+        for (let item of Settings.config.projects) {
+            try {
+                let folder = `${Settings.folder}/${item.projectFolder}`;
+                let currentBranch: string = git.currentBranch(folder);
+                let changes: string = git.diff(folder, currentBranch, baseBranch);
+                if (!showChanges) {
+                    console.log(`[${item.packageName}] ${currentBranch} is ${changes !== "" ? "NOT" : ""} merged with ${baseBranch}`);
+                }
+                else {
+                    console.log(`[${item.packageName}] ${(changes === "") ? "NO" : ""} changes ${changes} \n ---------`);
+                }
+
+            } catch (err) {
+                console.error(err);
+            }
+        }
+    }
+
     static async infoCommand(projectName: string, last: boolean, check: boolean) {
         console.log("");
         console.log(`Check versions...`);
