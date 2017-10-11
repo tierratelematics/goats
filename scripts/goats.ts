@@ -95,6 +95,14 @@ program
     });
 
 program
+    .command("diff <baseBranch>")
+    .option("--show-changes", "Show the changes")
+    .description("Display the version between current branch and baseBranch")
+    .action((baseBranch, option) => {
+            return Tasks.diffCommand(baseBranch, !!(option.showChanges));
+    });
+
+program
     .command("*")
     .action(() => program.help());
 
