@@ -26,6 +26,7 @@ export class Tasks {
             }
         }
         Settings.repository = baseRepo;
+        Settings.generateRushFile();
     }
 
     static async refreshRepos() {
@@ -159,7 +160,7 @@ export class Tasks {
 
         let module = new Module(name, version);
 
-        for (let item of Settings.config.projects) {
+        for (let item of Settings.nodeProjects) {
             try {
                 let packageDict = require(`${Settings.folder}/${item.projectFolder}/package.json`);
                 packageDict.dependencies = module.replaceVersionInside(packageDict.dependencies);
@@ -206,7 +207,7 @@ export class Tasks {
         let projects = (projectName) ? [{
             projectFolder: `modules/${projectName}`,
             packageName: projectName
-        }] : Settings.config.projects;
+        }] : Settings.nodeProjects;
 
         for (let item of projects) {
             try {
@@ -228,7 +229,7 @@ export class Tasks {
         console.log("");
         console.log(`Check the version of the module ${name} ...`);
 
-        for (let item of Settings.config.projects) {
+        for (let item of Settings.nodeProjects) {
             try {
                 let packageDict = require(`${Settings.folder}/${item.projectFolder}/package.json`);
                 let modules = _.merge(packageDict.dependencies, packageDict.optionalDependencies,
@@ -248,7 +249,7 @@ export class Tasks {
 
         let git = new Git(Settings.repository);
 
-        for (let item of Settings.config.projects) {
+        for (let item of Settings.nodeProjects) {
             try {
                 let numberCommit = await git.numberCommit(Settings.folder + "/" + item.projectFolder, target);
                 console.log(`[${item.packageName}] Number commit: ${numberCommit}`);
