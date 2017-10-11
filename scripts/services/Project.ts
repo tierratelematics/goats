@@ -1,8 +1,8 @@
 import * as path from "path";
 import * as fs from "fs";
 
-export class Rush {
-    public static readonly instance = new Rush();
+export class Project {
+    public static readonly instance = new Project();
 
     public baseDir: string;
     public config: any;
@@ -11,7 +11,7 @@ export class Rush {
         let current = process.cwd();
 
         for (let i = 0; i < 10; ++i) {
-            const configFile = path.join(current, "rush.json");
+            const configFile = path.join(current, "project.json");
 
             if (fs.existsSync(configFile)) {
                 if (i > 0)
@@ -26,6 +26,7 @@ export class Rush {
 
             current = parent;
         }
-        throw new Error("Unable to find rush.json configuration file");
+
+        throw new Error("Unable to find project.json configuration file");
     }
 }

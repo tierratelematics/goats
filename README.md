@@ -13,7 +13,7 @@ Bear in mind that this is obviously an experimental tool, therefore many things 
 
 ## Prerequisites
 
-The tool assumes that you already have configured your *rush.json* file, and that you already have installed both rush and git on your system.
+The tool assumes that you already have configured your *project.json* file, and that you already have installed both rush and git on your system. The tool automatically create a *rush.json* that contains all the project that contains *project.json*.
 
 ## Installation
 
