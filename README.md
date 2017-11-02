@@ -100,6 +100,12 @@ Last but not least, if you want to execute any command on any of your repositori
 $ goat run <command> [arguments...]
 ```
 
+To run test for across all goats modules you can use the 'test' command.
+
+```bash
+$ goats test
+```
+
 ## Roadmap (proposal)
 
 * goats add \<name\> -d \<dir\> - Adds a new application in the given folder and changes rush.json accordingly
