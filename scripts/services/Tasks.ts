@@ -7,6 +7,7 @@ import * as shell from "shelljs";
 import {Module} from "./Module";
 import {Feature} from "./Feature";
 import {Npm} from "./Npm";
+import {colorize, LogTextColor} from "./LogUtils";
 
 export class Tasks {
     static async cloneRepos(baseRepo: string, branch?: string) {
@@ -267,8 +268,12 @@ export class Tasks {
         let npm = new Npm();
         for (let item of Settings.nodeProjects) {
             try {
-                let result = npm.run("test", Settings.folder + "/" + item.projectFolder).code === 0 ? "OK" : "KO";
-                console.log(`Running on ${item.packageName} with result: ${result}`);
+                let resultText = npm.run("test", Settings.folder + "/" + item.projectFolder).code === 0
+                    ? colorize("OK", LogTextColor.GREEN)
+                    : colorize("KO", LogTextColor.RED);
+
+                console.log(`Running on ${item.packageName} with result: ${resultText}`);
+
             } catch (err) {
                 console.error(err);
             }
