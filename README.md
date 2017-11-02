@@ -94,10 +94,16 @@ To discover the latest version of a repository you can use the info command
 $ goats info -p <project> -l
 ```
 
-Last but not least, if you want to execute any command on any of your repositories (e.g. a gitflow start feature), you can use the conveniente run command
+Last but not least, if you want to execute any command on any of your repositories (e.g. a gitflow start feature), you can use the convenient run command
 
 ```bash
 $ goat run <command> [arguments...]
+```
+
+To run test for across all goats modules you can use the 'test' command.
+
+```bash
+$ goats test
 ```
 
 ## Roadmap (proposal)
