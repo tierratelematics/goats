@@ -2,7 +2,6 @@
 import * as program from "commander";
 import {Tasks} from "./services/Tasks";
 import * as shell from "shelljs";
-import { each } from "lodash";
 
 let packageJson = require("../package.json");
 
