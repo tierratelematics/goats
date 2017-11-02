@@ -9,4 +9,8 @@ export class Npm {
             silent: true
         }).stdout.toString().trim();
     }
+
+    run(name: string, target: string): any {
+        return shell.exec(`npm run ${name}`, {cwd: target, silent: true});
+    }
 }

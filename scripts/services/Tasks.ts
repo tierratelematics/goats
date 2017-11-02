@@ -6,6 +6,8 @@ import * as _ from "lodash";
 import * as shell from "shelljs";
 import {Module} from "./Module";
 import {Feature} from "./Feature";
+import {Npm} from "./Npm";
+import {colorize, LogTextColor} from "./LogUtils";
 
 export class Tasks {
     static async cloneRepos(baseRepo: string, branch?: string) {
@@ -133,7 +135,7 @@ export class Tasks {
         console.log("");
         console.log(`${action} the ${name} feature inside projects ${projects.join(" ")}...`);
         let configProjectsList = (action === "start") ?
-            _.intersectionWith(Settings.config.projects, projects, (config, project) => config.packageName === project) :
+            _.intersectionWith(Settings.config.projects, projects, (config: any, project) => config.packageName === project) :
             Settings.config.projects;
 
         let git = new Git(Settings.repository);
@@ -253,6 +255,25 @@ export class Tasks {
             try {
                 let numberCommit = await git.numberCommit(Settings.folder + "/" + item.projectFolder, target);
                 console.log(`[${item.packageName}] Number commit: ${numberCommit}`);
+            } catch (err) {
+                console.error(err);
+            }
+        }
+    }
+
+    static async test() {
+        console.log("");
+        console.log("Running test...");
+
+        let npm = new Npm();
+        for (let item of Settings.nodeProjects) {
+            try {
+                let resultText = npm.run("test", Settings.folder + "/" + item.projectFolder).code === 0
+                    ? colorize("OK", LogTextColor.GREEN)
+                    : colorize("KO", LogTextColor.RED);
+
+                console.log(`Running on ${item.packageName} with result: ${resultText}`);
+
             } catch (err) {
                 console.error(err);
             }

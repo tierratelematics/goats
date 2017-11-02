@@ -99,7 +99,14 @@ program
     .option("--show-changes", "Show the changes")
     .description("Display the changes between current branch and baseBranch")
     .action((baseBranch, option) => {
-            return Tasks.diffCommand(baseBranch, !!(option.showChanges));
+        return Tasks.diffCommand(baseBranch, !!(option.showChanges));
+    });
+
+program
+    .command("test")
+    .description("Run tests for every node project")
+    .action(() => {
+        return Tasks.test();
     });
 
 program
